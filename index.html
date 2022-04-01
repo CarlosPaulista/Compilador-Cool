@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<body>
+    <head>
+
+        <style>
+            body {
+
+  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3rby87_6UYpvZIHmaYMC7AH6vkN-EC5SgHA&usqp=CAU");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+            h1 {
+              color: rgb(255, 17, 0);
+              text-align: center;
+            } 
+            #output {
+              color: green;
+  background-color: black;
+        margin: 20px;
+        margin-left: auto;
+        resize: none;
+        margin-right: auto;
+        
+        
+     
+}
+#output2 {
+  color: green;
+  background-color: black;
+  vertical-align: top;
+        margin-left: auto;
+        resize: none;
+        margin-right: auto;
+        
+        
+     
+}
+
+textarea{
+  vertical-align: top;
+}
+
+            </style>
+    <title>Compilador</title>
+    <h1>Compilador V0.001</h1>
+
+    <input type="file" onchange="loadFile(this.files[0])">
+    <br>
+    <textarea id="output" cols="80" rows="40"></textarea>
+    <br>
+    <textarea id="output2" cols="80" rows="40" ></textarea>
+
+    <script>
+       
+        async function loadFile(file) {
+          let text = await file.text();
+          document.getElementById('output').textContent = text;
+       
+    }
+      </script>
+    </head>
+   
+</body>
