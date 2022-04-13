@@ -15,6 +15,10 @@
               color: rgb(255, 17, 0);
               text-align: center;
             } 
+            h2{
+            	color: darkgreen;
+
+            }
             #output {
               color: green;
   background-color: black;
@@ -42,21 +46,34 @@ textarea{
   vertical-align: top;
 }
 
-            </style>
+    </style>
     <title>Compilador</title>
     <h1>Compilador V0.001</h1>
 
     <input type="file" onchange="loadFile(this.files[0])">
     <br>
-    <textarea id="output" cols="80" rows="40"></textarea>
+    <textarea id="output" cols="80" rows="40" readonly="true"></textarea>
     <br>
-    <textarea id="output2" cols="80" rows="40" ></textarea>
+    <h2>LEXEMA</h2>
+    <textarea id="output2" cols="80" rows="40" readonly="false"></textarea>
 
     <script>
        
         async function loadFile(file) {
           let text = await file.text();
           document.getElementById('output').textContent = text;
+
+          var linha = document.getElementById("output").value.split(" ");
+         
+      		//if(linha == "int")
+      		//		document.getElementById("output2").value = "palavraReservada_Int";
+      		
+      	//	else
+      		//	document.getElementById("output2")= linha;	
+      		
+          
+          
+         
        
     }
       </script>
