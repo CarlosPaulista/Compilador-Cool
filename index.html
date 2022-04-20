@@ -1,82 +1,564 @@
 <!DOCTYPE html>
+
 <body>
+
     <head>
 
         <style>
             body {
 
-  background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3rby87_6UYpvZIHmaYMC7AH6vkN-EC5SgHA&usqp=CAU");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
+                background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3rby87_6UYpvZIHmaYMC7AH6vkN-EC5SgHA&usqp=CAU");
+                background-repeat: no-repeat;
+                background-size: cover;
+            }
 
 
             h1 {
-              color: rgb(255, 17, 0);
-              text-align: center;
-            } 
-            h2{
-            	color: darkgreen;
+                color: rgb(255, 17, 0);
+                text-align: center;
+            }
+
+            h2 {
+                color: darkgreen;
 
             }
+
             #output {
-              color: green;
-  background-color: black;
-        margin: 20px;
-        margin-left: auto;
-        resize: none;
-        margin-right: auto;
-        
-        
-     
-}
-#output2 {
-  color: green;
-  background-color: black;
-  vertical-align: top;
-        margin-left: auto;
-        resize: none;
-        margin-right: auto;
-        
-        
-     
-}
+                color: green;
+                background-color: black;
+                margin: 20px;
+                margin-left: auto;
+                resize: none;
+                margin-right: auto;
 
-textarea{
-  vertical-align: top;
-}
 
-    </style>
-    <title>Compilador</title>
-    <h1>Compilador V0.001</h1>
 
-    <input type="file" onchange="loadFile(this.files[0])">
-    <br>
-    <textarea id="output" cols="80" rows="40" readonly="true"></textarea>
-    <br>
-    <h2>LEXEMA</h2>
-    <textarea id="output2" cols="80" rows="40" readonly="false"></textarea>
+            }
 
-    <script>
-       
-        async function loadFile(file) {
-          let text = await file.text();
-          document.getElementById('output').textContent = text;
+            #output2 {
+                color: rgb(247, 0, 255);
+                background-color: black;
+                vertical-align: top;
+                margin-left: auto;
+                resize: none;
+                margin-right: auto;
 
-          var linha = document.getElementById("output").value.split(" ");
-         
-      		//if(linha == "int")
-      		//		document.getElementById("output2").value = "palavraReservada_Int";
-      		
-      	//	else
-      		//	document.getElementById("output2")= linha;	
-      		
-          
-          
-         
-       
-    }
-      </script>
+
+
+            }
+
+            textarea {
+                vertical-align: top;
+            }
+        </style>
+        <title>Compilador</title>
+        <h1>=====________=====_Compilador_=====________=====</h1>
+
+        <input type="file" onchange="loadFile(this.files[0])">
+        <br>
+        <textarea id="output" cols="80" rows="40" readonly="true"></textarea>
+        <br>
+        <h2>LEXEMA</h2>
+        <textarea id="output2" cols="80" rows="40" readonly="false"></textarea>
+
+        <script>
+
+
+            function letra(caracter) {
+                if (atual[caracter] >= 'a' && atual[caracter] <= 'z' || atual[caracter] >= 'A' && atual[caracter] <= 'Z') {
+                    return true;
+                }
+                else {
+                    return false;
+                }
+            }
+
+            function numero(caracter) {
+                if (atual[caracter] >= 0 && atual[caracter] <= 9) {
+                    return true;
+                }
+            }
+
+            function espaco(caracter) {
+                if (atual[caracter] == " ") {
+                    return true;
+                }
+
+            }
+
+            function especial(caracter) {
+                if (atual[caracter] == ';' || atual[caracter] == '{' || atual[caracter] == '}') {
+                    return true;
+                }
+            }
+
+            function automatoloop(caracter) {
+
+                passo = 0;
+                while (caracter <= atual.length) {
+
+                    switch (passo) {
+                        case 0: {
+
+                            if (atual[caracter] == 'i') {
+
+                                if (atual[caracter + 1] == 'f') {
+                                    saida += '<KW_IF> ';
+                                    document.getElementById('output2').value = saida;
+                                    passo = 0;
+                                }
+                                else {
+                                    passo = 1;
+                                }
+
+                            }
+                            if (atual[caracter] == 'e') {
+                                passo = 23;
+                            }
+
+                            if (atual[caracter] == 'c') {
+                                passo = 13;
+
+                            }
+
+                            if (numero(caracter) == true) {
+                                //passo = 100;
+                            }
+
+                            if (espaco[caracter] == true) {
+
+                            }
+                            if (atual[caracter] == '\n') {
+                                saida += "\r\n";
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+
+                            }
+                            if (especial[caracter] == true) {
+                                passo = 12;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                            
+                        } break;
+
+                        case 1: {
+
+                            if (atual[caracter] == 's') {
+                                passo = 3;
+
+                            }
+
+                            if (atual[caracter] == 'n' && atual[caracter + 1] == ' ') {
+                                saida += '<KW_IN> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                            }
+                            if (atual[caracter] == 'n') { 
+                                passo = 2;
+                            }
+                            else {
+
+                                //passo = 100;
+                            }
+                        }
+
+                        case 2: {
+                            if (atual[caracter] == 'h') {
+                                passo = 7;
+                            }
+                            if (atual[caracter] == 't' && atual[caracter + 1] == ' ') {
+                                saida += '<KW_INT> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                                break;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+
+                        case 3: {
+                            if (atual[caracter] == 'v') {
+                                passo = 4;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 4: {
+                            if (atual[caracter] == 'o') {
+                                passo = 5;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+
+                        case 5: {
+                            if (atual[caracter] == 'i') {
+                                passo = 6;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+
+                        }
+                        case 6: {
+                            if (atual[caracter] == 'd') {
+                                saida += '<KW_isvoid> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                                break;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+
+
+                        }
+                        case 7: {
+                            if (atual[caracter] == 'e') {
+                                passo = 8;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 8: {
+                            if (atual[caracter] == 'r') {
+                                passo = 9;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 9: {
+                            if (atual[caracter] == 'i') {
+                                passo = 10;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 10: {
+                            if (atual[caracter] == 't') {
+                                passo = 11;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 11: {
+                            if (atual[caracter] == 's') {
+                                saida += '<KW_inherits> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                                break;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+
+                        case 12: {
+                            if (atual[caracter] == '{') {
+                                saida += '<KW_abreChave> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                            }
+                            if (atual[caracter] == '}') {
+                                saida += '<KW_fechaChave> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                            }
+                            if (atual[caracter] == ';') {
+                                saida += '<KW_pontoVirgula> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+
+                            }
+                            if (atual[caracter + 1] == '\n' && atual[caracter + 2] == '}') {
+                                saida += '<KW_fechaChave> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+
+                            }
+                            if (atual[caracter] == '=') {
+                                saida += '<KW_atribuicao> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                            }
+                            if (atual[caracter] == '+') {
+                                saida += '<KW_soma> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                            }
+                            if (atual[caracter] == '-') {
+                                saida += '<KW_menos> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                            }
+                            if (atual[caracter] == '.') {
+                                saida += '<KW_ponto> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                            }
+
+                            if (atual[caracter] == '?') {
+                                saida += '<KW_Integacao> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                            }
+                            if (atual[caracter] == '*') {
+                                saida += '<KW_multiplicacao> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                            }
+                            if (atual[caracter] == '(') {
+                                saida += '<KW_abreParentese> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                            }
+                            if (atual[caracter] == ')') {
+                                saida += '<KW_fechaParentese> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                            }
+                        }
+
+                        case 13: {
+                            if (atual[caracter] == 'c') { //case 
+                                passo = 14;
+                            }
+                            if (atual[caracter] == 'l') {
+                                passo = 18; // class
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+
+                        case 14: {
+                            if (atual[caracter] == 'a') { //case 
+                                passo = 15;
+                            }
+                            if (atual[caracter] == 'l') {
+                                passo = 18; // class
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 15: {
+                            if (atual[caracter] == 's') { //case 
+                                passo = 14;
+                            }
+                            else {
+                                ////passo = 100;
+                            }
+                        }
+                        case 16: {
+                            if (atual[caracter] == 'e') { //case 
+                                saida += '<KW_case> ';
+                                document.getElementById('output2').value = saida;
+                                passo = 0;
+                                break;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 17: {
+                            if (atual[caracter] == 'c') { //case 
+                                passo = 18;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 18: { // class
+                            if (atual[caracter] == 'l') {
+                                passo = 19;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 19: {
+                            if (atual[caracter] == 'a') {
+                                passo = 20;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 20: {
+                            if (atual[caracter] == 's') {
+                                passo = 21;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 21: {
+                            if (atual[caracter] == 's') {
+                                saida += '<KW_class> ';
+                                document.getElementById('output2').value = saida;
+
+                                passo = 0;
+                                break;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+
+                        case 22: {
+                            if (atual[caracter] == 'e') { //else 
+                                passo = 23;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 23: {
+                            if (atual[caracter] == 'l') { //else 
+                                passo = 24;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 24: {
+                            if (atual[caracter] == 's') { //else 
+                                passo = 25;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+                        case 25: {
+                            if (atual[caracter] == 'e') { //else 
+                                saida += '<KW_else> ';
+                                document.getElementById('output2').value = saida;
+
+                                passo = 0;
+                                break;
+                            }
+                            else {
+                                //passo = 100;
+                            }
+                        }
+
+                       // case 100: {
+
+                    //        if (letra(caracter) == true) {  
+
+                      //          save += atual[caracter];
+                     //           passo = 101;
+                    //        }
+                     //       else if (numero(caracter) == true) {
+
+                    //            passo = 103;
+                    //        }
+                      //      else if (espaco(caracter) == true) {
+                     //           //passo = 100;
+                     //       }
+                      //      else if (especial(caracter) == true) {
+                      //          passo = 105;
+                      //      }
+                       //     else {
+                      //         document.getElementById('output2').value = saida, atual[caracter];
+                      //      }
+                     //       break;
+                      //  }
+                     //   case 101: {
+                    //        if (letra(caracter) == true || numero(caracter) == true) {
+                    //            passo = 101;
+                    //            save += atual[caracter];
+                    //        }
+                    //        else {
+                     //           passo = 102;
+                    //        }
+                   //         break;
+                   //     }
+                   //     case 102: {
+                   //         saida += '<KY_ID>';
+                   //         document.getElementById('output2').value = saida;
+                   //         passo = 0;
+                  //      }
+                   //     case 103: {
+                   //        if (numero(caracter) == true) {
+
+                   //             passo = 103;
+                    //            save += atual[caracter];
+                     //       }
+                    //        else if (letra(caracter) == false ) {
+                    //            passo = 104;
+                                
+                      //      }
+                   //         break;
+                    //    } 
+                    //    case 104: {
+                    //        saida += '<KY_NUM>';
+                     //       document.getElementById('output2').value = saida;
+                   //         passo = 0;
+                   //     }
+
+
+
+
+                    }
+                    caracter++;
+                }
+
+
+
+            }
+            async function loadFile(file) {
+                let text = await file.text();
+                document.getElementById('output').textContent = text;
+
+                let textos = document.getElementById("output").value;
+                this.atual = textos.split('');
+
+
+                this.saida = ['Token' + '|' + 'Valor' + "\r\n"];
+                document.getElementById('output2').value = saida;
+
+
+                this.aceitaveisReservadas = ['{', '}', ';', '(', ')', null, ' '];
+
+
+
+
+                this.i = 0;
+
+
+
+                caracter = i;
+
+
+                automatoloop(caracter);
+
+
+
+
+
+
+
+
+
+
+            }
+
+
+
+
+
+        </script>
     </head>
-   
+
 </body>
